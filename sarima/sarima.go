@@ -150,7 +150,10 @@ func (m *Model) fitCSS() error {
 		mean += v
 	}
 	mean /= float64(n)
-	m.Intercept = mean
+	m.Intercept = 0
+	if m.includesConstant() {
+		m.Intercept = mean
+	}
 
 	// Initialize AR coefficients using ACF
 	if p > 0 {
@@ -631,6 +634,9 @@ func (m *Model) fitMLE() {
 		sarC := params[p+q : p+q+sp]
 		smaC := params[p+q+sp : p+q+sp+sq]
 		mu := params[nParams-1]
+		if !m.includesConstant() {
+			mu = 0
+		}
 
 		// Stationarity/invertibility check
 		absSum := 0.0
@@ -714,7 +720,10 @@ func (m *Model) fitMLE() {
 		copy(m.MACoeffs, result.X[p:p+q])
 		copy(m.SARCoeffs, result.X[p+q:p+q+sp])
 		copy(m.SMACoeffs, result.X[p+q+sp:p+q+sp+sq])
-		m.Intercept = result.X[nParams-1]
+		m.Intercept = 0
+		if m.includesConstant() {
+			m.Intercept = result.X[nParams-1]
+		}
 
 		// Get variance from Kalman filter
 		expAR, expMA := m.expandedCoeffs()
@@ -1090,4 +1099,13 @@ func clamp(v, lower, upper float64) float64 { //nolint:unparam // lower is alway
 		return upper
 	}
 	return v
+}
+
+// includesConstant reports whether the model estimates a constant on the
+// differenced scale: a mean with no differencing, or a drift with one order
+// of differencing in total. With two or more orders (for example d=1 and
+// D=1) a constant would integrate into a polynomial trend, so it is fixed at
+// zero, as in R's Arima.
+func (m *Model) includesConstant() bool {
+	return m.Order.D+m.Order.SD < 2
 }

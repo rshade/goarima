@@ -2,6 +2,18 @@
 
 All notable changes to GoARIMA will be documented in this file.
 
+## [Unreleased]
+
+### Fixed
+
+- ARIMA and SARIMA no longer estimate a constant when the total differencing
+  order is two or more (`d >= 2`, or `d + D >= 2` for SARIMA). The mean of the
+  differenced series was used as an intercept and integrated into a
+  polynomial trend, so long forecasts bent away from the data: on a rising
+  daily series an auto-selected `SARIMA(4,1,2)(0,1,1)[7]` fell to about a
+  third of the true value after a year. A mean is still fitted with no
+  differencing and a drift with one order, as in R's `Arima`.
+
 ## [v0.4.0] - 2026-10-28
 
 First release of the `rshade/goarima` fork of

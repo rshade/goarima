@@ -124,7 +124,10 @@ func (m *Model) fitCSS() error {
 		for _, v := range y {
 			mean += v
 		}
-		m.Intercept = mean / float64(n)
+		m.Intercept = 0
+		if m.includesConstant() {
+			m.Intercept = mean / float64(n)
+		}
 		m.Variance = 0
 		for _, v := range y {
 			diff := v - m.Intercept
@@ -175,7 +178,10 @@ func (m *Model) optimizeCSS(y []float64) error {
 		mean += v
 	}
 	mean /= float64(n)
-	m.Intercept = mean
+	m.Intercept = 0
+	if m.includesConstant() {
+		m.Intercept = mean
+	}
 
 	// Adaptive gradient descent with momentum
 	maxIter := 200
@@ -439,6 +445,9 @@ func (m *Model) fitMLE() {
 		ar := params[:p]
 		ma := params[p : p+q]
 		mu := params[p+q]
+		if !m.includesConstant() {
+			mu = 0
+		}
 
 		// Check stationarity/invertibility (necessary but not sufficient condition;
 		// full root analysis of the characteristic polynomial would be more rigorous)
@@ -475,7 +484,10 @@ func (m *Model) fitMLE() {
 	if mleLogLik > cssLogLik {
 		copy(m.ARCoeffs, result.X[:p])
 		copy(m.MACoeffs, result.X[p:p+q])
-		m.Intercept = result.X[p+q]
+		m.Intercept = 0
+		if m.includesConstant() {
+			m.Intercept = result.X[p+q]
+		}
 
 		// Get variance from Kalman filter
 		ss := statespace.NewARMA(m.ARCoeffs, m.MACoeffs, m.Intercept)
@@ -865,4 +877,12 @@ func constrainPolynomial(coeffs []float64) {
 			coeffs[i] *= scale
 		}
 	}
+}
+
+// includesConstant reports whether the model estimates a constant on the
+// differenced scale: a mean when d=0, a drift when d=1. With d>=2 a constant
+// would integrate into a polynomial trend, so it is fixed at zero, as in R's
+// Arima.
+func (m *Model) includesConstant() bool {
+	return m.Order.D < 2
 }
