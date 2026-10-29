@@ -9,15 +9,28 @@
 package autoarima
 
 import (
+	"errors"
 	"fmt"
 	"math"
 	"sort"
 	"strconv"
 
-	"github.com/sartorproj/goarima/arima"
-	"github.com/sartorproj/goarima/sarima"
-	"github.com/sartorproj/goarima/stats"
-	"github.com/sartorproj/goarima/timeseries"
+	"github.com/rshade/goarima/arima"
+	"github.com/rshade/goarima/sarima"
+	"github.com/rshade/goarima/stats"
+	"github.com/rshade/goarima/timeseries"
+)
+
+// MinObservations is the shortest series AutoARIMA will fit.
+const MinObservations = 10
+
+var (
+	// ErrSeriesTooShort is returned when the series has fewer than MinObservations points.
+	ErrSeriesTooShort = errors.New("autoarima: series too short")
+	// ErrNoModel is returned when no candidate model could be fitted.
+	ErrNoModel = errors.New("autoarima: no candidate model could be fitted")
+	// ErrNilResult is returned when a method is called on a nil or empty Result.
+	ErrNilResult = errors.New("autoarima: result has no fitted model")
 )
 
 // Common seasonal periods for different data frequencies.
@@ -209,10 +222,14 @@ func AutoARIMA(series *timeseries.Series, config *Config) (*Result, error) {
 		config = DefaultConfig()
 	}
 
-	n := series.Len()
-	if n < 10 {
-		return nil, nil
+	if series == nil || series.Len() < MinObservations {
+		n := 0
+		if series != nil {
+			n = series.Len()
+		}
+		return nil, fmt.Errorf("%w: %d observations, need at least %d", ErrSeriesTooShort, n, MinObservations)
 	}
+	n := series.Len()
 
 	// Step 0: Apply Box-Cox transformation if enabled
 	var bcLambda float64
@@ -279,7 +296,7 @@ func AutoARIMA(series *timeseries.Series, config *Config) (*Result, error) {
 	}
 
 	if len(candidates) == 0 {
-		return nil, nil
+		return nil, ErrNoModel
 	}
 
 	// Step 4: Evaluate candidates using cross-validation
@@ -1086,12 +1103,14 @@ func (r *Result) Predict(steps int) ([]float64, error) {
 // with bias correction.
 func (r *Result) PredictWithInterval(steps int, confidence float64) (forecast, lower, upper []float64, err error) {
 	switch {
+	case r == nil:
+		return nil, nil, nil, ErrNilResult
 	case r.IsSeasonal && r.SeasonalModel != nil:
 		forecast, lower, upper, err = r.SeasonalModel.PredictWithInterval(steps, confidence)
 	case r.Model != nil:
 		forecast, lower, upper, err = r.Model.PredictWithInterval(steps, confidence)
 	default:
-		return nil, nil, nil, nil
+		return nil, nil, nil, ErrNilResult
 	}
 	if err != nil || !r.UsedBoxCox {
 		return

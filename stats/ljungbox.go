@@ -3,7 +3,7 @@ package stats
 import (
 	"math"
 
-	"github.com/sartorproj/goarima/timeseries"
+	"github.com/rshade/goarima/timeseries"
 )
 
 // LjungBoxResult represents the result of a Ljung-Box test.

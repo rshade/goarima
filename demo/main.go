@@ -10,11 +10,11 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/sartorproj/goarima/arima"
-	"github.com/sartorproj/goarima/autoarima"
-	"github.com/sartorproj/goarima/sarima"
-	"github.com/sartorproj/goarima/stats"
-	"github.com/sartorproj/goarima/timeseries"
+	"github.com/rshade/goarima/arima"
+	"github.com/rshade/goarima/autoarima"
+	"github.com/rshade/goarima/sarima"
+	"github.com/rshade/goarima/stats"
+	"github.com/rshade/goarima/timeseries"
 )
 
 // Dataset defines a time series dataset to analyze

@@ -4,7 +4,7 @@ import (
 	"math"
 	"testing"
 
-	"github.com/sartorproj/goarima/timeseries"
+	"github.com/rshade/goarima/timeseries"
 )
 
 func TestNewARIMA(t *testing.T) {

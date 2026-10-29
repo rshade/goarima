@@ -4,7 +4,7 @@ import (
 	"math"
 	"sort"
 
-	"github.com/sartorproj/goarima/timeseries"
+	"github.com/rshade/goarima/timeseries"
 )
 
 // DecompositionResult represents the decomposition of a time series.

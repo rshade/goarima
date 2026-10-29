@@ -3,7 +3,7 @@ package stats
 import (
 	"math"
 
-	"github.com/sartorproj/goarima/timeseries"
+	"github.com/rshade/goarima/timeseries"
 )
 
 // NDiffs determines the number of first differences required for stationarity.

@@ -2,6 +2,22 @@
 
 All notable changes to GoARIMA will be documented in this file.
 
+## [v0.4.0] - 2026-10-28
+
+First release of the `rshade/goarima` fork of
+[sartorproj/goarima](https://github.com/sartorproj/goarima). It includes the
+upstream commits after v0.3.0 (audit fixes, Box-Cox, exact MLE).
+
+### Changed
+
+- **Breaking:** the module path is now `github.com/rshade/goarima`.
+- **Breaking:** `autoarima.AutoARIMA` returns `ErrSeriesTooShort` for a series
+  with fewer than `MinObservations` points (or a nil series), and `ErrNoModel`
+  when no candidate fits. It previously returned a nil result with a nil error,
+  so callers that checked only the error dereferenced nil.
+- `Result.PredictWithInterval` and `Result.Predict` return `ErrNilResult` for a
+  nil or empty result instead of nil slices with a nil error.
+
 ## [v0.3.0] - 2025-12-15
 
 ### 🎯 Major Feature: Automatic Seasonality Detection

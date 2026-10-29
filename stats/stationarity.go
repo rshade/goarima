@@ -3,7 +3,7 @@ package stats
 import (
 	"math"
 
-	"github.com/sartorproj/goarima/timeseries"
+	"github.com/rshade/goarima/timeseries"
 )
 
 // ADFResult represents the result of an Augmented Dickey-Fuller test.

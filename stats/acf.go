@@ -4,7 +4,7 @@ package stats
 import (
 	"math"
 
-	"github.com/sartorproj/goarima/timeseries"
+	"github.com/rshade/goarima/timeseries"
 )
 
 // ACF calculates the Autocorrelation Function for the given series.

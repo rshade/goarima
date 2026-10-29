@@ -1,10 +1,12 @@
 # GoARIMA
 
-[![CI](https://github.com/sartorproj/goarima/actions/workflows/ci.yml/badge.svg)](https://github.com/sartorproj/goarima/actions/workflows/ci.yml)
-[![Go Report Card](https://goreportcard.com/badge/github.com/sartorproj/goarima)](https://goreportcard.com/report/github.com/sartorproj/goarima)
-[![GoDoc](https://pkg.go.dev/badge/github.com/sartorproj/goarima)](https://pkg.go.dev/github.com/sartorproj/goarima)
+[![CI](https://github.com/rshade/goarima/actions/workflows/ci.yml/badge.svg)](https://github.com/rshade/goarima/actions/workflows/ci.yml)
+[![Go Report Card](https://goreportcard.com/badge/github.com/rshade/goarima)](https://goreportcard.com/report/github.com/rshade/goarima)
+[![GoDoc](https://pkg.go.dev/badge/github.com/rshade/goarima)](https://pkg.go.dev/github.com/rshade/goarima)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Go Version](https://img.shields.io/github/go-mod/go-version/sartorproj/goarima)](https://go.dev/)
+[![Go Version](https://img.shields.io/github/go-mod/go-version/rshade/goarima)](https://go.dev/)
+
+> **Fork**: this is the `rshade` fork of [sartorproj/goarima](https://github.com/sartorproj/goarima), maintained for [FinFocus](https://github.com/rshade/finfocus). See [CHANGELOG.md](CHANGELOG.md) for the differences.
 
 A comprehensive Go package implementing ARIMA, SARIMA, and Auto-ARIMA time series models with statistical tests, following the methodology from [Forecasting: Principles and Practice](https://otexts.com/fpppy/nbs/09-arima.html).
 
@@ -44,7 +46,7 @@ A comprehensive Go package implementing ARIMA, SARIMA, and Auto-ARIMA time serie
 ## Installation
 
 ```bash
-go get github.com/sartorproj/goarima
+go get github.com/rshade/goarima
 ```
 
 ## Demo
@@ -90,7 +92,7 @@ package main
 
 import (
     "fmt"
-    "github.com/sartorproj/goarima/timeseries"
+    "github.com/rshade/goarima/timeseries"
 )
 
 func main() {
@@ -117,8 +119,8 @@ package main
 
 import (
     "fmt"
-    "github.com/sartorproj/goarima/stats"
-    "github.com/sartorproj/goarima/timeseries"
+    "github.com/rshade/goarima/stats"
+    "github.com/rshade/goarima/timeseries"
 )
 
 func main() {
@@ -143,8 +145,8 @@ package main
 
 import (
     "fmt"
-    "github.com/sartorproj/goarima/arima"
-    "github.com/sartorproj/goarima/timeseries"
+    "github.com/rshade/goarima/arima"
+    "github.com/rshade/goarima/timeseries"
 )
 
 func main() {
@@ -179,8 +181,8 @@ package main
 import (
     "fmt"
     "math"
-    "github.com/sartorproj/goarima/sarima"
-    "github.com/sartorproj/goarima/timeseries"
+    "github.com/rshade/goarima/sarima"
+    "github.com/rshade/goarima/timeseries"
 )
 
 func main() {
@@ -216,8 +218,8 @@ package main
 
 import (
     "fmt"
-    "github.com/sartorproj/goarima/autoarima"
-    "github.com/sartorproj/goarima/timeseries"
+    "github.com/rshade/goarima/autoarima"
+    "github.com/rshade/goarima/timeseries"
 )
 
 func main() {
@@ -278,8 +280,8 @@ package main
 
 import (
     "fmt"
-    "github.com/sartorproj/goarima/stats"
-    "github.com/sartorproj/goarima/timeseries"
+    "github.com/rshade/goarima/stats"
+    "github.com/rshade/goarima/timeseries"
 )
 
 func main() {
@@ -357,7 +359,7 @@ fmt.Printf("STL Trend: %v\n", stl.Trend.Values)
 ## Time Series Utilities
 
 ```go
-import "github.com/sartorproj/goarima/timeseries"
+import "github.com/rshade/goarima/timeseries"
 
 series := timeseries.New(values)
 

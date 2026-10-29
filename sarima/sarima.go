@@ -5,10 +5,10 @@ import (
 	"errors"
 	"math"
 
-	"github.com/sartorproj/goarima/internal/optimize"
-	"github.com/sartorproj/goarima/internal/statespace"
-	"github.com/sartorproj/goarima/stats"
-	"github.com/sartorproj/goarima/timeseries"
+	"github.com/rshade/goarima/internal/optimize"
+	"github.com/rshade/goarima/internal/statespace"
+	"github.com/rshade/goarima/stats"
+	"github.com/rshade/goarima/timeseries"
 )
 
 // Order represents SARIMA model order (p, d, q) x (P, D, Q, m).

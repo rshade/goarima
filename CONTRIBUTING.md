@@ -28,7 +28,7 @@ Please be respectful and constructive in all interactions. We welcome contributo
    ```
 3. Add the upstream repository:
    ```bash
-   git remote add upstream https://github.com/sartorproj/goarima.git
+   git remote add upstream https://github.com/rshade/goarima.git
    ```
 
 ## Development Setup
